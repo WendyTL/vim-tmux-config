@@ -2,8 +2,9 @@
 # ======================
 
   # if you install git via homebrew, or install the bash autocompletion via homebrew, you get __git_ps1 which you can use in the PS1
-  # to display the git branch.  it's supposedly a bit faster and cleaner than manually parsing through sed. i dont' know if you care 
+  # to display the git branch.  it's supposedly a bit faster and cleaner than manually parsing through sed. i dont' know if you care
   # enough to change it
+
   # This function is called in your prompt to output your active git branch.
   function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -11,16 +12,22 @@
 
   # This function builds your prompt. It is called below
   function prompt {
+    # Define the prompt character
+    local   CHAR="🤖"
+
     # Define some local colors
-    local         RED="\[\033[0;31m\]" # This syntax is some weird bash color thing I never
-    local   LIGHT_RED="\[\033[1;31m\]" # really understood
-    local        CHAR="🍵"
-    local   BLUE="\[\e[0;49;34m\]"
+    local   RED="\[\e[0;31m\]"
+    local   BLUE="\[\e[0;34m\]"
+    local   GREEN="\[\e[0;32m\]"
+    local   GRAY_TEXT_BLUE_BACKGROUND="\[\e[37;44;1m\]"
+
+    # Define a variable to reset the text color
+    local   RESET="\[\e[0m\]"
 
     # ♥ ☆ - Keeping some cool ASCII Characters for reference
 
     # Here is where we actually export the PS1 Variable which stores the text for your prompt
-    export PS1="\[\e]2;\u@\h\a[\[\e[37;44;1m\]\t\[\e[0m\]]$RED\$(parse_git_branch) \[\e[32m\]\W\[\e[0m\]\n\[\e[0;31m\]$CHAR \[\e[0m\]"
+    export PS1="\[\e]2;\u@\h\a[$GRAY_TEXT_BLUE_BACKGROUND\t$RESET]$RED\$(parse_git_branch) $GREEN\W\n $CHAR  $RESET"
       PS2='> '
       PS4='+ '
     }
@@ -34,12 +41,21 @@
   # If you break your prompt, just delete the last thing you did.
   # And that's why it's good to keep your dotfiles in git too.
 
+  # A handy function to open your bash profile from any directory
+  function bp {
+    $EDITOR ~/.bash_profile
+  }
+
 # Environment Variables
 # =====================
   # Library Paths
   # These variables tell your shell where they can find certain
   # required libraries so other programs can reliably call the variable name
   # instead of a hardcoded path.
+
+    # NVM source line
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
     # NODE_PATH
     # Node Path from Homebrew I believe
@@ -149,18 +165,18 @@ function extract () {
   alias gst="git status"
   alias gl="git pull"
   alias gp="git push"
-  alias gd="git diff | mate"
+  alias gd="git diff | subl"
   alias gc="git commit -v"
   alias gca="git commit -v -a"
   alias gb="git branch"
   alias gba="git branch -a"
-  alias gck="git checkout"
   alias gcam="git commit -am"
   alias gbb="git branch -b"
 
+
 # Case-Insensitive Auto Completion
-  bind "set completion-ignore-case on" 
-  
+  bind "set completion-ignore-case on"
+
 # Postgres
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
@@ -169,14 +185,14 @@ export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
   # Git Bash Completion
   # Will activate bash git completion if installed
   # via homebrew
-
   if [ -f `brew --prefix`/etc/bash_completion ]; then
     . `brew --prefix`/etc/bash_completion
   fi
-
-
 
   # RVM
   # Mandatory loading of RVM into the shell
   # This must be the last line of your bash_profile always
   [[ -s "/Users/$USER/.rvm/scripts/rvm" ]] && source "/Users/$USER/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
+  # VIM
+  export TERM=xterm-256color
