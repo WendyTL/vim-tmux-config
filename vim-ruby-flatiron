@@ -41,8 +41,9 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'vim-scripts/Conque-Shell'
 Plugin 'ervandew/supertab'
 Plugin 'vim-scripts/AutoComplPop'
+" Plugin 'Raimondi/delimitMate'
+Plugin 'jiangmiao/auto-pairs'
 "
-" Plugin 'valloric/youcompleteme'
 Bundle 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
 Plugin 'roosta/srcery'
@@ -62,20 +63,21 @@ Plugin 'honza/vim-snippets'
 Plugin 'Shougo/neocomplete.vim'
 
 Plugin 'sheerun/vim-polyglot'
-Plugin 'ap/vim-css-color'
 Plugin 'epilande/vim-react-snippets'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'elzr/vim-json'
+Plugin 'ap/vim-css-color'
 " Plugin 'MarcWeber/vim-addon-mw-utils'
 " Plugin 'tomtom/tlib_vim'
 " Plugin 'garbas/vim-snipmate'
 
 " All of your Plugins must be added before the following line
 call vundle#end()      " required
-" filetype plugin indent on  " required
+filetype plugin indent on  " required
 " To ignore plugin indent changes, instead use:
-filetype plugin on
-"
+" filetype plugin on
+"filetype plugin indent on
 " Brief help
 " :PluginList   - lists configured plugins
 " :PluginInstall  - installs plugins; append `!` to update or just :PluginUpdate
@@ -99,6 +101,9 @@ filetype plugin on
 if has("syntax")
   syntax on
 endif
+
+syntax enable
+
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
@@ -179,40 +184,37 @@ let g:jsx_ext_required = 0
 "     call a:node.open({'reuse': "all", 'where': 't'})
 " endfunction
 
+" auto completion for { & }
+" inoremap {<CR> {<CR>}<C-o>O<TAB>
 
-
-
-
- "///commented off neo vim related stuff"
+" Plugin neocomplete Configuration
 "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
 " let g:acp_enableAtStartup = 0
 " Use neocomplete.
-" let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
-" let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-" let g:neocomplete#sources#syntax#min_keyword_length = 3
-" let g:neocomplete#sources#syntax#min_keyword_length = 2
-" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist',
-"     \ 'scheme' : $HOME.'/.gosh_completions'
-"         \ }
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
 
 " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-"     let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-" inoremap <expr><C-g>     neocomplete#undo_completion()
-" inoremap <expr><C-l>     neocomplete#complete_common_string()
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " " Recommended key-mappings.
 " " <CR>: close popup and save indent.
@@ -240,24 +242,21 @@ let g:jsx_ext_required = 0
 " "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 "
 " Enable omni completion.
+autocmd FileType * setlocal omnifunc=syntaxcomplete#Complete
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-augroup Group1  
-  autocmd!
-  autocmd FileType * setlocal omnifunc=syntaxcomplete#Complete
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-  autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 0
-  autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-  autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-  autocmd FileType ruby compiler ruby
-  autocmd FileType javascript UltiSnipsAddFiletypes html
-augroup END
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 0
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby compiler ruby
+autocmd FileType javascript UltiSnipsAddFiletypes html
 " autocmd FileType ruby let g:SuperTabDefaultCompletionType = "context"
+
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
@@ -320,8 +319,8 @@ let g:promptline_theme = 'airline'
 "colorscheme solarized
 "colorscheme srcery
 "colorscheme atomdark
-"colorscheme gruvbox
 colorscheme onedark
+
 
 " hi Normal ctermbg=none
 " hi Normal guibg=#1b202a
@@ -526,9 +525,10 @@ nmap <leader>r :call VimuxRunCommand(getline('.') ." ") <CR>
 vmap <leader>r :call VimuxRunCommand(getline('.') ." ") <CR>
 
 nmap <leader>t  :w \| call VimuxRunCommand("!!") <CR>
-nmap <leader>npm	:w \| call VimuxRunCommand("npm run bundle ") <CR>
+nmap <leader>npm	:w \| call VimuxRunCommand("npm install") <CR>
 map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <leader>ls  :w \| call VimuxRunCommand(" learn && learn submit") <CR>
+nmap <leader>l  :w \| call VimuxRunCommand("learn") <CR>
+nmap <leader>ls  :w \| call VimuxRunCommand("learn submit") <CR>
 nmap <leader>lb	:w \| call VimuxRunCommand("learn -b") <CR>
 
 " open file in the browser
@@ -550,3 +550,4 @@ if filereadable("/etc/vim/vimrc.local")
 endif
 
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+
