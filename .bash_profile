@@ -53,7 +53,7 @@
   # required libraries so other programs can reliably call the variable name
   # instead of a hardcoded path.
 
-    # NVM source line
+    # NVM
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
@@ -69,11 +69,12 @@
 
     # GIT_MERGE_AUTO_EDIT
     # This variable configures git to not require a message when you merge.
-    export GIT_MERGE_AUTOEDIT='no'
+    export GIT_MERGE_AUTOEDIT="no"
 
     # Editors
     # Tells your shell that when a program requires various editors, use sublime.
     # The -w flag tells your shell to wait until sublime exits
+    # export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
     export VISUAL="subl -w"
     export SVN_EDITOR="subl -w"
     export GIT_EDITOR="subl -w"
@@ -81,7 +82,7 @@
 
     # Version
     # What version of the Flatiron School bash profile this is
-    export FLATIRON_VERSION='1.1.1'
+    export FLATIRON_VERSION="1.1.1"
   # Paths
 
     # The USR_PATHS variable will just store all relevant /usr paths for easier usage
@@ -157,9 +158,10 @@ function extract () {
 
 # Aliases
 # =====================
-  # LS
-  alias l='ls -lah'
-
+  # CLI
+  alias l="ls -lah"
+  alias cdtc="cd /Users/wen/Development/tc/VVV/www/thoughtis/public_html/wp-content/themes/vip/thoughtcatalogtheme"
+  alias showcase="cd /Users/wen/Development/tc/VVV/www/thoughtis/public_html/wp-content/themes/vip/thoughtcatalog-plugins/jw-player-showcase"
   # Git
   alias gcl="git clone"
   alias gst="git status"
@@ -185,14 +187,17 @@ export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
   # Git Bash Completion
   # Will activate bash git completion if installed
   # via homebrew
-  if [ -f `brew --prefix`/etc/bash_completion ]; then
-    . `brew --prefix`/etc/bash_completion
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
   fi
+
+  # iTerm2 true color
+  export TERM=xterm-256color
+
+  # SQlite
+  export PATH="/usr/local/opt/sqlite/bin:$PATH" # loads the homebrew sqlite version into a shell session.
 
   # RVM
   # Mandatory loading of RVM into the shell
   # This must be the last line of your bash_profile always
   [[ -s "/Users/$USER/.rvm/scripts/rvm" ]] && source "/Users/$USER/.rvm/scripts/rvm"  # This loads RVM into a shell session.
-
-  # VIM
-  export TERM=xterm-256color
