@@ -196,8 +196,17 @@ export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
   # SQlite
   export PATH="/usr/local/opt/sqlite/bin:$PATH" # loads the homebrew sqlite version into a shell session.
+  
+  # GO
+  export GOPATH="/Users/$USER/Development/go"
 
   # RVM
   # Mandatory loading of RVM into the shell
   # This must be the last line of your bash_profile always
   [[ -s "/Users/$USER/.rvm/scripts/rvm" ]] && source "/Users/$USER/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
+
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
