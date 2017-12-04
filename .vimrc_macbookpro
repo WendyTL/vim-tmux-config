@@ -126,6 +126,7 @@ else
   "
 endif
 
+Plugin 'fatih/vim-go' "add GO lang for vim
 Plugin 'sheerun/vim-polyglot'
 Plugin 'epilande/vim-react-snippets'
 Plugin 'pangloss/vim-javascript'
