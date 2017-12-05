@@ -45,3 +45,6 @@ curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-
 Note: copy mode is set to vi-mode
 
 ####Colors and fonts are from other repositories made by other users. Thank them for it!
+
+
+https://superuser.com/questions/397076/tmux-exits-with-exited-on-mac-os-x
